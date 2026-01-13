@@ -20,12 +20,14 @@
 
 - 🏗️ **Real-time LED Wall Planning** - Visualize LED displays with accurate module calculations
 - 📏 **Professional Calculations** - Based on real LED module dimensions and wall constraints
-- 🎯 **LG LED Models** - Pre-configured with actual LG LED specifications
+- 🎯 **LG LED Models** - Pre-configured with actual LG LED specifications (8 models available)
 - 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
 - 🖼️ **Image Upload** - Upload custom images to see them displayed on LED walls
 - 📊 **Safety Margins** - Shows remaining space between LED display and wall boundaries
 - 🔄 **Auto-calculations** - LED modules update automatically when wall dimensions change
 - 🎨 **Modern UI** - Clean, professional interface with smooth interactions
+- 📄 **PDF Export** - Generate professional installation guides with detailed specifications
+- 🏛️ **Flexible Model Selection** - Any LED model can be used for any wall setup type
 
 ## 🚀 Quick Start
 
@@ -64,10 +66,10 @@ npm run build
 - Select units (meters/feet)
 
 ### 2. Select LED Model
-- Browse all available LG LED models
+- Browse all available LG LED models (no indoor/outdoor restrictions)
 - View specifications (pixel pitch, brightness, resolution)
 - See module dimensions and technical details
-- No restrictions - any model can be used for any setup
+- Any model can be used for any setup type
 
 ### 3. View LED Configuration
 - Automatic module calculations
@@ -76,9 +78,14 @@ npm run build
 - Check remaining space (safety margins)
 
 ### 4. Add Content
-- Upload custom images
-- See images displayed on LED wall
+- Upload custom images or use default demo image
+- See images displayed on LED wall in real-time
 - Switch between image and no-image modes
+
+### 5. Export Installation Guide
+- Click "Export Installation Guide" button in sidebar
+- Generate professional 2-page PDF with all specifications
+- Includes layout diagrams, safety guidelines, and technical details
 
 ## 🏗️ Architecture
 
@@ -102,6 +109,8 @@ src/
 - **Vite** - Fast development server and build tool
 - **Tailwind CSS** - Utility-first CSS framework
 - **HTML5 Canvas** - LED wall rendering
+- **React-PDF** - Professional PDF generation
+- **React Hooks** - State management and effects
 
 ## 📊 LED Models Included
 
@@ -136,6 +145,12 @@ All calculations update automatically when you change wall dimensions or select 
 
 ### Flexible Model Selection
 Users can choose any LED model regardless of wall setup type (indoor/outdoor), providing maximum flexibility for real-world installation scenarios.
+
+### Professional PDF Export
+Generate comprehensive 2-page installation guides with:
+- **Page 1**: Project information, specifications, and module requirements
+- **Page 2**: Installation layout diagrams and safety guidelines
+- **Professional Layout**: Clean, print-ready formatting with proper page breaks
 
 ## 🤝 Contributing
 
