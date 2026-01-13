@@ -13,9 +13,7 @@ export const Canvas: React.FC<CanvasProps> = ({
     <main className="flex-1 bg-gray-100 relative overflow-hidden">
       <div className="flex items-center justify-center h-full p-8">
         <LedWallPreview
-          wallConfig={state.wallConfig}
-          displayConfig={state.displayConfig}
-          contentConfig={state.contentConfig}
+          state={state}
         />
       </div>
     </main>

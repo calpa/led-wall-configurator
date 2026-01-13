@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Button } from './Button';
-import type { WallSetup } from '../types';
 import { lgModels, type LEDModel } from '../../data/lg-models';
 
 interface ModelSelectionModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectModel: (model: LEDModel) => void;
-  wallSetup: WallSetup;
   currentModelId?: string;
 }
 
@@ -15,11 +13,9 @@ export const ModelSelectionModal: React.FC<ModelSelectionModalProps> = ({
   isOpen,
   onClose,
   onSelectModel,
-  wallSetup,
   currentModelId,
 }) => {
   const [selectedModel, setSelectedModel] = useState<LEDModel | null>(null);
-  const [filter, setFilter] = useState<'all' | 'indoor' | 'outdoor'>('all');
 
   // Load models from data
   const allModels: LEDModel[] = lgModels;

@@ -9,7 +9,6 @@ function App() {
     updateWallConfig,
     updateDisplayConfig,
     updateContentConfig,
-    resetToDefaults,
   } = useConfiguratorState();
 
   return (

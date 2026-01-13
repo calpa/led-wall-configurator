@@ -1,25 +1,19 @@
 import React from 'react';
 import { HumanSilhouette } from './HumanSilhouette';
-import type { WallConfig, DisplayConfig, ContentConfig } from '../types';
+import { exportToPDF } from '../../utils/pdfExport';
+import type { ConfiguratorState } from '../types';
 import {
-  calculateWallDimensions,
   calculateResolution,
-  calculatePanelDimensions,
   getUnitLabel,
   formatResolution,
 } from '../../utils/calculations';
 
 interface LedWallPreviewProps {
-  wallConfig: WallConfig;
-  displayConfig: DisplayConfig;
-  contentConfig: ContentConfig;
+  state: ConfiguratorState;
 }
 
-export const LedWallPreview: React.FC<LedWallPreviewProps> = ({
-  wallConfig,
-  displayConfig,
-  contentConfig,
-}) => {
+export const LedWallPreview: React.FC<LedWallPreviewProps> = ({ state }) => {
+  const { wallConfig, displayConfig, contentConfig } = state;
   const calculateActualLEDSize = () => {
     const actualWidth = displayConfig.modulesHorizontal * displayConfig.ledModule.width;
     const actualHeight = displayConfig.modulesVertical * displayConfig.ledModule.height;
@@ -51,11 +45,25 @@ export const LedWallPreview: React.FC<LedWallPreviewProps> = ({
   const { actualWidth, actualHeight } = calculateActualLEDSize();
   const ledWallDimensions = calculateLEDWallDimensions();
   const resolution = calculateResolution(displayConfig);
-  const panelDimensions = calculatePanelDimensions(ledWallDimensions, displayConfig);
   const unitLabel = getUnitLabel(wallConfig);
+
+  const handleExportPDF = async () => {
+    try {
+      await exportToPDF(state);
+    } catch (error) {
+      console.error('Failed to export PDF:', error);
+    }
+  };
 
   return (
     <div className="relative">
+      {/* PDF Export Button */}
+      <button
+        onClick={handleExportPDF}
+        className="absolute top-4 right-4 z-10 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-lg"
+      >
+        📄 Export PDF
+      </button>
       {/* Main LED Wall Container */}
       <div className="relative">
         {/* Horizontal dimension label */}

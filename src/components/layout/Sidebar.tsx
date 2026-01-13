@@ -33,7 +33,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <DisplayConfigurationSection
           displayConfig={state.displayConfig}
-          wallSetup={state.wallConfig.setup}
           onChange={updateDisplayConfig}
         />
 

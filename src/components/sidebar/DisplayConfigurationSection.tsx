@@ -13,13 +13,11 @@ import {
 
 interface DisplayConfigurationSectionProps {
   displayConfig: DisplayConfig;
-  wallSetup: 'indoor' | 'outdoor';
   onChange: (updates: Partial<DisplayConfig>) => void;
 }
 
 export const DisplayConfigurationSection: React.FC<DisplayConfigurationSectionProps> = ({
   displayConfig,
-  wallSetup,
   onChange,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -153,7 +151,6 @@ export const DisplayConfigurationSection: React.FC<DisplayConfigurationSectionPr
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           onSelectModel={handleSelectModel}
-          wallSetup={wallSetup}
           currentModelId={currentModelId}
         />
       </div>
