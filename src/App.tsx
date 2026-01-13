@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Header } from './components/layout/Header';
+import { Sidebar } from './components/layout/Sidebar';
+import { Canvas } from './components/layout/Canvas';
+import { useConfiguratorState } from './hooks/useConfiguratorState';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const {
+    state,
+    updateWallConfig,
+    updateDisplayConfig,
+    updateContentConfig,
+    fitToWall,
+  } = useConfiguratorState();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="h-screen flex flex-col bg-gray-50">
+      <Header />
+      <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
+        <Sidebar
+          state={state}
+          updateWallConfig={updateWallConfig}
+          updateDisplayConfig={updateDisplayConfig}
+          updateContentConfig={updateContentConfig}
+          fitToWall={fitToWall}
+        />
+        <Canvas
+          state={state}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
