@@ -51,7 +51,7 @@ export const NumberInputWithStepper: React.FC<NumberInputWithStepperProps> = ({
         <button
           onClick={handleDecrement}
           disabled={value <= min}
-          className="w-8 h-8 rounded border border-gray-300 bg-white flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-8 h-8 rounded border border-gray-300 bg-white flex items-center justify-center transition-all duration-200 ease-in-out transform hover:bg-gray-50 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100"
         >
           <span className="text-gray-600">-</span>
         </button>
@@ -76,7 +76,7 @@ export const NumberInputWithStepper: React.FC<NumberInputWithStepperProps> = ({
         <button
           onClick={handleIncrement}
           disabled={value >= max}
-          className="w-8 h-8 rounded border border-gray-300 bg-white flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-8 h-8 rounded border border-gray-300 bg-white flex items-center justify-center transition-all duration-200 ease-in-out transform hover:bg-gray-50 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:scale-100"
         >
           <span className="text-gray-600">+</span>
         </button>

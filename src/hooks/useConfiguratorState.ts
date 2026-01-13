@@ -15,8 +15,8 @@ import { calculateRequiredModules } from '../utils/calculations';
 const defaultState: ConfiguratorState = {
   wallConfig: {
     setup: 'indoor' as WallSetup,
-    width: 6,
-    height: 3,
+    width: 5, // Default indoor width
+    height: 3, // Default indoor height
     unit: 'meter' as Unit,
   },
   displayConfig: {
@@ -73,10 +73,25 @@ export const useConfiguratorState = () => {
   }, [state.wallConfig.width, state.wallConfig.height, state.displayConfig.ledModule]);
 
   const updateWallConfig = useCallback((updates: Partial<WallConfig>) => {
-    setState(prev => ({
-      ...prev,
-      wallConfig: { ...prev.wallConfig, ...updates },
-    }));
+    setState(prev => {
+      const newWallConfig = { ...prev.wallConfig, ...updates };
+      
+      // Auto-update dimensions when switching between indoor/outdoor
+      if ('setup' in updates) {
+        if (updates.setup === 'outdoor') {
+          newWallConfig.width = 20; // Default outdoor width
+          newWallConfig.height = 12; // Default outdoor height
+        } else {
+          newWallConfig.width = 5; // Default indoor width
+          newWallConfig.height = 3; // Default indoor height
+        }
+      }
+      
+      return {
+        ...prev,
+        wallConfig: newWallConfig,
+      };
+    });
   }, []);
 
   const updateDisplayConfig = useCallback((updates: Partial<DisplayConfig>) => {
