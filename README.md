@@ -10,6 +10,10 @@
 
 *A professional LED wall planning tool for indoor and outdoor displays*
 
+## 📸 Application Preview
+
+![LED Wall Configurator Screenshot](project.png)
+
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://led-wall-configurator.pages.dev/)
 [![GitHub stars](https://img.shields.io/github/stars/calpa/led-wall-configurator?style=for-the-badge&logo=github&logoColor=white)](https://github.com/calpa/led-wall-configurator)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=github&logoColor=white)](LICENSE)
