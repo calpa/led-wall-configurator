@@ -93,8 +93,9 @@ export const calculateRequiredModules = (
   moduleWidth: number,
   moduleHeight: number
 ) => {
-  const modulesHorizontal = Math.ceil(wallWidth / moduleWidth);
-  const modulesVertical = Math.ceil(wallHeight / moduleHeight);
+  // Use floor to ensure modules don't exceed wall dimensions
+  const modulesHorizontal = Math.floor(wallWidth / moduleWidth);
+  const modulesVertical = Math.floor(wallHeight / moduleHeight);
   const totalModules = modulesHorizontal * modulesVertical;
   
   return {

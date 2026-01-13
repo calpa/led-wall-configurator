@@ -20,9 +20,38 @@ export const LedWallPreview: React.FC<LedWallPreviewProps> = ({
   displayConfig,
   contentConfig,
 }) => {
-  const wallDimensions = calculateWallDimensions(wallConfig);
+  const calculateActualLEDSize = () => {
+    const actualWidth = displayConfig.modulesHorizontal * displayConfig.ledModule.width;
+    const actualHeight = displayConfig.modulesVertical * displayConfig.ledModule.height;
+    return { actualWidth, actualHeight };
+  };
+
+  const calculateLEDWallDimensions = () => {
+    const { actualWidth, actualHeight } = calculateActualLEDSize();
+    const wallWidth = wallConfig.width;
+    const wallHeight = wallConfig.height;
+    
+    // Calculate scale to fit LED within wall boundaries
+    const scaleX = 400 / wallWidth; // Scale wall to 400px width
+    const scaleY = 300 / wallHeight; // Scale wall to 300px height
+    const scale = Math.min(scaleX, scaleY); // Use smaller scale to maintain aspect ratio
+    
+    // LED dimensions in pixels (constrained by wall)
+    const ledWidth = actualWidth * scale;
+    const ledHeight = actualHeight * scale;
+    
+    return {
+      width: ledWidth,
+      height: ledHeight,
+      wallWidth: wallWidth * scale,
+      wallHeight: wallHeight * scale,
+    };
+  };
+
+  const { actualWidth, actualHeight } = calculateActualLEDSize();
+  const ledWallDimensions = calculateLEDWallDimensions();
   const resolution = calculateResolution(displayConfig);
-  const panelDimensions = calculatePanelDimensions(wallDimensions, displayConfig);
+  const panelDimensions = calculatePanelDimensions(ledWallDimensions, displayConfig);
   const unitLabel = getUnitLabel(wallConfig);
 
   return (
@@ -47,17 +76,46 @@ export const LedWallPreview: React.FC<LedWallPreviewProps> = ({
 
         {/* Panel dimension indicators */}
         <div className="absolute -top-10 left-0 text-xs text-gray-500 font-medium">
-          {wallConfig.unit === 'meter' ? '0.6m' : '2ft'}
+          {displayConfig.ledModule.width}{unitLabel}
         </div>
         <div className="absolute -left-10 top-0 text-xs text-gray-500 font-medium writing-mode-vertical">
-          {wallConfig.unit === 'meter' ? '0.34m' : '1.1ft'}
+          {displayConfig.ledModule.height}{unitLabel}
         </div>
 
-        {/* LED Wall - Grid of Individual Panels */}
-        <div
-          className="relative overflow-hidden"
-          style={{ width: wallDimensions.width, height: wallDimensions.height }}
-        >
+        {/* Remaining space indicators */}
+        <div className="absolute -top-10 right-0 text-xs text-orange-500 font-medium">
+          Remaining: {(wallConfig.width - (displayConfig.modulesHorizontal * displayConfig.ledModule.width)).toFixed(2)}{unitLabel}
+        </div>
+        <div className="absolute -left-10 bottom-0 text-xs text-orange-500 font-medium writing-mode-vertical">
+          Remaining: {(wallConfig.height - (displayConfig.modulesVertical * displayConfig.ledModule.height)).toFixed(2)}{unitLabel}
+        </div>
+
+        {/* LED Wall Container with Wall Boundaries */}
+        <div className="relative" style={{ 
+          width: ledWallDimensions.wallWidth, 
+          height: ledWallDimensions.wallHeight 
+        }}>
+          {/* Wall boundary */}
+          <div className="absolute inset-0 border-2 border-dashed border-gray-400 bg-gray-100">
+            <div className="absolute top-2 left-2 text-xs text-gray-500">
+              Wall: {wallConfig.width} × {wallConfig.height} {unitLabel}
+            </div>
+            <div className="absolute bottom-2 right-2 text-xs text-orange-500">
+              LED: {actualWidth.toFixed(2)} × {actualHeight.toFixed(2)} {unitLabel}
+            </div>
+          </div>
+          
+          {/* LED Wall - Positioned within wall boundaries */}
+          <div
+            className="absolute overflow-hidden"
+            style={{
+              width: ledWallDimensions.width,
+              height: ledWallDimensions.height,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
           {/* Grid of LED Panels */}
           <div className="grid gap-1" style={{ 
             gridTemplateColumns: `repeat(${displayConfig.modulesHorizontal}, 1fr)`,
@@ -115,6 +173,7 @@ export const LedWallPreview: React.FC<LedWallPreviewProps> = ({
           </div>
 
           {/* Remove the large overlay that was causing the overlap */}
+        </div>
         </div>
 
         {/* Resolution label */}
