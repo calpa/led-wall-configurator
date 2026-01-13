@@ -10,8 +10,8 @@
 
 *A professional LED wall planning tool for indoor and outdoor displays*
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://led-wall-configurator.com)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/led-wall-configurator?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yourusername/led-wall-configurator)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://led-wall-configurator.pages.dev/)
+[![GitHub stars](https://img.shields.io/github/stars/calpa/led-wall-configurator?style=for-the-badge&logo=github&logoColor=white)](https://github.com/calpa/led-wall-configurator)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=github&logoColor=white)](LICENSE)
 
 </div>
@@ -40,7 +40,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/led-wall-configurator.git
+git clone https://github.com/calpa/led-wall-configurator.git
 cd led-wall-configurator
 
 # Install dependencies
