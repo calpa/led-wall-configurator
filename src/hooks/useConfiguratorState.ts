@@ -38,7 +38,7 @@ const defaultState: ConfiguratorState = {
   },
   contentConfig: {
     type: 'image' as ContentType,
-    imageUrl: '/public/demo.jpg',
+    imageUrl: '/demo.jpg',
   },
   viewState: {
     zoom: 1,
