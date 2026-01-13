@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SectionCard } from '../common/SectionCard';
 import { RadioButtonGroup } from '../common/RadioButtonGroup';
-import { Button } from '../common/Button';
+import { ModelSelectionModal } from '../common/ModelSelectionModal';
 import type { DisplayConfig, Resolution } from '../types';
+import type { LEDModel } from '../../data/lg-models';
 import {
   calculateResolution,
   calculateDisplayArea,
@@ -12,15 +13,19 @@ import {
 
 interface DisplayConfigurationSectionProps {
   displayConfig: DisplayConfig;
+  wallSetup: 'indoor' | 'outdoor';
   onChange: (updates: Partial<DisplayConfig>) => void;
-  onFitToWall: () => void;
 }
 
 export const DisplayConfigurationSection: React.FC<DisplayConfigurationSectionProps> = ({
   displayConfig,
+  wallSetup,
   onChange,
-  onFitToWall,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Extract model ID from model name (assuming they match)
+  const currentModelId = displayConfig.modelName;
   const handleResolutionChange = (resolution: string) => {
     onChange({ resolution: resolution as Resolution });
   };
@@ -29,6 +34,30 @@ export const DisplayConfigurationSection: React.FC<DisplayConfigurationSectionPr
     { value: 'FHD' as Resolution, label: 'FHD' },
     { value: 'UHD' as Resolution, label: 'UHD' },
   ];
+
+  const handleSelectModel = (model: LEDModel) => {
+    // Convert LED model to display config format
+    const ledModule = {
+      width: model.moduleWidth,
+      height: model.moduleHeight,
+      resolution: model.moduleResolution,
+      displayArea: model.moduleArea,
+      diagonal: model.moduleDiagonal,
+    };
+
+    onChange({
+      modelName: model.name,
+      ledModule,
+    });
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const resolution = calculateResolution(displayConfig);
   const displayArea = calculateDisplayArea(displayConfig.ledModule.displayArea, displayConfig.totalModules);
@@ -45,9 +74,14 @@ export const DisplayConfigurationSection: React.FC<DisplayConfigurationSectionPr
               type="text"
               value={displayConfig.modelName}
               onChange={(e) => onChange({ modelName: e.target.value })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-gray-50 cursor-not-allowed"
+              readOnly
+              placeholder="Select a model..."
             />
-            <button className="text-blue-600 hover:text-blue-800 text-xs font-medium text-left whitespace-nowrap">
+            <button 
+              onClick={handleOpenModal}
+              className="text-blue-600 hover:text-blue-800 text-xs font-medium text-left whitespace-nowrap"
+            >
               Select Model →
             </button>
           </div>
@@ -115,9 +149,13 @@ export const DisplayConfigurationSection: React.FC<DisplayConfigurationSectionPr
           </div>
         </div>
 
-        <Button onClick={onFitToWall} className="w-full">
-          Fit to Wall
-        </Button>
+        <ModelSelectionModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onSelectModel={handleSelectModel}
+          wallSetup={wallSetup}
+          currentModelId={currentModelId}
+        />
       </div>
     </SectionCard>
   );

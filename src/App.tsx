@@ -9,7 +9,7 @@ function App() {
     updateWallConfig,
     updateDisplayConfig,
     updateContentConfig,
-    fitToWall,
+    resetToDefaults,
   } = useConfiguratorState();
 
   return (
@@ -21,7 +21,6 @@ function App() {
           updateWallConfig={updateWallConfig}
           updateDisplayConfig={updateDisplayConfig}
           updateContentConfig={updateContentConfig}
-          fitToWall={fitToWall}
         />
         <Canvas
           state={state}
