@@ -32,15 +32,8 @@ export const ModelSelectionModal: React.FC<ModelSelectionModalProps> = ({
     }
   }, [isOpen, currentModelId]);
 
-  // Filter models based on wall setup and filter selection
-  const filteredModels = allModels.filter(model => {
-    const matchesSetup = wallSetup === 'indoor' ? model.type === 'Indoor' : model.type === 'Outdoor';
-    const matchesFilter = filter === 'all' || 
-      (filter === 'indoor' && model.type === 'Indoor') ||
-      (filter === 'outdoor' && model.type === 'Outdoor');
-    
-    return matchesSetup && matchesFilter;
-  });
+  // Show all models (no filtering by wall setup)
+  const filteredModels = allModels;
 
   const handleSelectModel = () => {
     if (selectedModel) {
@@ -65,42 +58,6 @@ export const ModelSelectionModal: React.FC<ModelSelectionModalProps> = ({
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Filter Tabs */}
-        <div className="px-6 py-3 border-b border-gray-200">
-          <div className="flex space-x-4">
-            <button
-              onClick={() => setFilter('all')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                filter === 'all'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              All Models
-            </button>
-            <button
-              onClick={() => setFilter('indoor')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                filter === 'indoor'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              Indoor
-            </button>
-            <button
-              onClick={() => setFilter('outdoor')}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                filter === 'outdoor'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              Outdoor
             </button>
           </div>
         </div>
