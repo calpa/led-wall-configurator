@@ -138,16 +138,14 @@ export const LedWallPreview: React.FC<LedWallPreviewProps> = ({
                   {/* LED panel surface */}
                   <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900">
                     {/* Panel content */}
-                    {contentConfig.type === 'image' && (
+                    {contentConfig.type === 'image' && contentConfig.imageUrl && (
                       <div className="absolute inset-0">
-                        {/* Sample image content with better integration */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-blue-400 via-blue-500 to-blue-600 opacity-90">
-                          <div className="absolute inset-0 bg-black opacity-20"></div>
-                          {/* Subtle cloud pattern */}
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-white opacity-30 text-2xl">☁️</div>
-                          </div>
-                        </div>
+                        <img
+                          src={contentConfig.imageUrl}
+                          alt="LED Display Content"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black opacity-10"></div>
                       </div>
                     )}
                     

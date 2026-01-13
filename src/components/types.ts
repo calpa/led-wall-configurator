@@ -33,8 +33,7 @@ export interface DisplayConfig {
 export interface ContentConfig {
   type: ContentType;
   imageUrl?: string;
-  videoUrl?: string;
-  customNote?: string;
+  imageFile?: File;
 }
 
 export interface ViewState {

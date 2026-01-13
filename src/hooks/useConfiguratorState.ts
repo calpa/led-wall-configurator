@@ -38,7 +38,7 @@ const defaultState: ConfiguratorState = {
   },
   contentConfig: {
     type: 'image' as ContentType,
-    imageUrl: 'https://images.unsplash.com/photo-1534723452862-4c874018d66d?w=800&h=600&fit=crop',
+    imageUrl: '/public/demo.jpg',
   },
   viewState: {
     zoom: 1,

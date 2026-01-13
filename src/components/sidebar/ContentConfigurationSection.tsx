@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { SectionCard } from '../common/SectionCard';
 import { RadioButtonGroup } from '../common/RadioButtonGroup';
-import { Button } from '../common/Button';
 import type { ContentConfig, ContentType } from '../types';
 
 interface ContentConfigurationSectionProps {
@@ -13,72 +12,35 @@ export const ContentConfigurationSection: React.FC<ContentConfigurationSectionPr
   contentConfig,
   onChange,
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleContentTypeChange = (type: string) => {
-    onChange({ type: type as ContentType });
-  };
-
-  const contentTypeOptions = [
-    { value: 'image' as ContentType, label: 'Image' },
-    { value: 'video' as ContentType, label: 'Video' },
-    { value: 'noImage' as ContentType, label: 'No Image' },
-    { value: 'custom' as ContentType, label: 'Custom' },
-  ];
-
-  const renderContentSettings = () => {
-    switch (contentConfig.type) {
-      case 'image':
-        return (
-          <div className="space-y-3">
-            <Button variant="secondary" className="w-full">
-              Upload Image
-            </Button>
-            <p className="text-sm text-gray-600">
-              Supported formats: JPG, PNG, GIF
-            </p>
-          </div>
-        );
-      case 'video':
-        return (
-          <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">
-              Video URL
-            </label>
-            <input
-              type="text"
-              value={contentConfig.videoUrl || ''}
-              onChange={(e) => onChange({ videoUrl: e.target.value })}
-              placeholder="Enter video URL"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        );
-      case 'noImage':
-        return (
-          <div className="space-y-3">
-            <p className="text-sm text-gray-600">
-              Plain color / black output
-            </p>
-          </div>
-        );
-      case 'custom':
-        return (
-          <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">
-              Custom Note
-            </label>
-            <textarea
-              value={contentConfig.customNote || ''}
-              onChange={(e) => onChange({ customNote: e.target.value })}
-              placeholder="Enter custom configuration notes..."
-              rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        );
-      default:
-        return null;
+    if (type === 'noImage') {
+      onChange({ type: type as ContentType, imageUrl: undefined, imageFile: undefined });
+    } else {
+      onChange({ type: type as ContentType });
     }
   };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        onChange({
+          type: 'image' as ContentType,
+          imageUrl: e.target?.result as string,
+          imageFile: file,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const contentOptions = [
+    { value: 'image' as ContentType, label: 'Default Image' },
+    { value: 'noImage' as ContentType, label: 'No Image' },
+  ];
 
   return (
     <SectionCard title="Content Configuration">
@@ -88,16 +50,50 @@ export const ContentConfigurationSection: React.FC<ContentConfigurationSectionPr
             Content Type
           </label>
           <RadioButtonGroup
-            options={contentTypeOptions}
+            options={contentOptions}
             value={contentConfig.type}
             onChange={handleContentTypeChange}
             name="contentType"
           />
         </div>
 
-        <div className="pt-4 border-t border-gray-200">
-          {renderContentSettings()}
-        </div>
+        {contentConfig.type === 'image' && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Image Options
+            </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors mb-2"
+            >
+              Upload Custom Image
+            </button>
+            
+            {contentConfig.imageFile && (
+              <div className="mb-2 text-sm text-gray-600">
+                Selected: {contentConfig.imageFile.name}
+              </div>
+            )}
+            
+            {contentConfig.imageUrl && (
+              <div className="mt-2">
+                <div className="text-xs text-gray-500 mb-1">Current Image:</div>
+                <img
+                  src={contentConfig.imageUrl}
+                  alt="Preview"
+                  className="w-full h-32 object-cover rounded-md border border-gray-200"
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </SectionCard>
   );
